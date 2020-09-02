@@ -1,18 +1,18 @@
 module.exports = {
   root: true,
   env: {
-    node: true,
+    node: true
   },
   extends: [
     'plugin:vue/essential',
-    '@vue/airbnb',
+    '@vue/standard'
   ],
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: 'babel-eslint'
   },
   rules: {
     'no-console': 'off',
     'no-debugger': 'off',
-    'vue/valid-template-root': 0,
-  },
-};
+    'vue/valid-template-root': 0
+  }
+}

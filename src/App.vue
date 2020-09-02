@@ -54,19 +54,19 @@
 </template>
 
 <script>
-import goods from './data/goods';
-import ProductList from './components/ProductList.vue';
+import goods from './data/goods'
+import ProductList from './components/ProductList.vue'
 
 export default {
   name: 'App',
   components: { ProductList },
 
-  data() {
+  data () {
     return {
-      goods,
-    };
-  },
-};
+      goods
+    }
+  }
+}
 </script>
 
 <style lang="scss">
