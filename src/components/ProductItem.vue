@@ -11,15 +11,11 @@
         <span class="catalog__price">
             {{product.priceGoods}}
         </span>
-        <ul class="colors colors--black">
-            <li class="colors__item" v-for="(colors,index) in product.colors" :key="index">
-                <ProductColors :color="colors"/>
-            </li>
-        </ul>
+      <ProductColors :productColor="product"/>
     </div>
 </template>
-<script>
 
+<script>
 import ProductColors from './ProductColors.vue'
 
 export default {
@@ -30,6 +26,5 @@ export default {
     }
   },
   components: { ProductColors }
-
 }
 </script>

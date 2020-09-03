@@ -4,16 +4,16 @@ export default [
     priceGoods: '3 690',
     imageGoods: '/img/radio.jpg',
     colors: [{
-      value: '#73B6EA',
-      colors: 'background-color: #73B6EA;'
+      id: 1,
+      value: '#73B6EA'
     },
     {
-      value: '#8BE000',
-      colors: 'background-color: #8BE000;'
+      id: 2,
+      value: '#8BE000'
     },
     {
-      value: '#FF0000',
-      colors: 'background-color: #FF0000;'
+      id: 3,
+      value: '#FF0000'
     }
     ]
   },
@@ -22,16 +22,16 @@ export default [
     priceGoods: '5 660',
     imageGoods: '/img/toothbrush.jpg',
     colors: [{
-      value: '#73B6EA',
-      colors: 'background-color: #73B6EA;'
+      id: 1,
+      value: '#73B6EA'
     },
     {
-      value: '#8BE000',
-      colors: 'background-color: #8BE000;'
+      id: 2,
+      value: '#8BE000'
     },
     {
-      value: '#FF0000',
-      colors: 'background-color: #FF0000;'
+      id: 3,
+      value: '#FF0000'
     }
     ]
   },
@@ -70,16 +70,16 @@ export default [
     priceGoods: '4 990 ₽',
     imageGoods: '/img/scooter.jpg',
     colors: [{
-      value: '#73B6EA',
-      colors: 'background-color: #73B6EA;'
+      id: 1,
+      value: '#73B6EA'
     },
     {
-      value: '#8BE000',
-      colors: 'background-color: #8BE000;'
+      id: 2,
+      value: '#8BE000'
     },
     {
-      value: '#FF0000',
-      colors: 'background-color: #FF0000;'
+      id: 3,
+      value: '#FF0000'
     }
     ]
   },
