@@ -11,7 +11,7 @@
         <span class="catalog__price">
             {{product.priceGoods}}
         </span>
-      <ProductColors :productColor="product"/>
+      <ProductColors :productColors="product.colors"/>
     </div>
 </template>
 

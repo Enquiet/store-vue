@@ -1,6 +1,6 @@
 <template>
   <ul class="colors colors--black">
-    <li class="colors__item" v-for="(color,id) in productColor.colors" :key="id">
+    <li class="colors__item" v-for="(color,id) in productColors" :key="id">
       <label class="colors__label">
         <input class="colors__radio sr-only"
                type="radio" name="color-1" :value="color.value" checked="">
@@ -13,7 +13,7 @@
 
 export default {
   props: {
-    productColor: {
+    productColors: {
       type: Array,
       default: () => []
     }
