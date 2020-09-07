@@ -1,10 +1,10 @@
 <template>
   <ul class="colors colors--black">
-    <li class="colors__item" v-for="(color,id) in productColors" :key="id">
+    <li class="colors__item" v-for="color in productColors" :key="color.id">
       <label class="colors__label">
         <input class="colors__radio sr-only"
-               type="radio" name="color-1" :value="color.value" checked="">
-        <span class="colors__value" :style="{background:color.value}"></span>
+               type="radio"   :value="color.id" checked=""  v-model="colorPick">
+        <span class="colors__value"   :style="{background:color.value}"></span>
       </label>
     </li>
   </ul>
@@ -16,6 +16,11 @@ export default {
     productColors: {
       type: Array,
       default: () => []
+    }
+  },
+  data () {
+    return {
+      colorPick: 1
     }
   }
 }
