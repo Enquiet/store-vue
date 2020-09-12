@@ -9,7 +9,7 @@
             </a>
         </h3>
         <span class="catalog__price">
-            {{product.priceGoods}}
+            {{product.priceGoods}} ₽
         </span>
       <ProductColors :productColors="product.colors"/>
     </div>
@@ -21,7 +21,7 @@ import ProductColors from './ProductColors.vue'
 export default {
   props: {
     product: {
-      type: Array,
+      type: Object,
       default: () => []
     }
   },
