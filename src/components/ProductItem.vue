@@ -11,7 +11,7 @@
         <span class="catalog__price">
             {{product.priceGoods}} ₽
         </span>
-      <ProductColors :productColors="product.colors"/>
+      <ProductColors v-if="product.colors" :productColors="product.colors"/>
     </div>
 </template>
 

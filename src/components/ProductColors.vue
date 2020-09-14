@@ -3,7 +3,7 @@
     <li class="colors__item" v-for="color in productColors" :key="color.id">
       <label class="colors__label">
         <input class="colors__radio sr-only"
-               type="radio"   :value="color.id" checked=""  v-model="colorPick">
+               type="radio"   :value="color.value" checked=""  v-model="colorPick">
         <span class="colors__value"   :style="{background:color.value}"></span>
       </label>
     </li>
@@ -20,7 +20,7 @@ export default {
   },
   data () {
     return {
-      colorPick: 1
+      colorPick: this.productColors[0].value
     }
   }
 }
