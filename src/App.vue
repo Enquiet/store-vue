@@ -10,7 +10,8 @@
     </div>
 
     <div class="content__catalog">
-      <ProductFilter  :price-to.sync="productPriceTo" :price-from.sync="productPriceFrom"  :category-id.sync="productFilterId" :category-color.sync="productFilterColor" />
+      <ProductFilter  :price-to.sync="productPriceTo" :price-from.sync="productPriceFrom"  :category-id.sync="productFilterId"
+      :category-color.sync="productFilterColor" :category-memory.sync="productFilterMamory"/>
       <section class="catalog">
         <ProductList :productList="goods"/>
         <BasePagination :page.sync="page" :all-products="getAllProduct" :per-products="NumberProductsPerPage"/>
@@ -35,7 +36,8 @@ export default {
       productPriceFrom: 0,
       productPriceTo: 0,
       productFilterId: 0,
-      productFilterColor: 0,
+      productFilterColor: '',
+      productFilterMamory: '',
 
       page: 1,
       NumberProductsPerPage: 4
@@ -57,8 +59,11 @@ export default {
       if (this.productFilterId) {
         filterProducts = filterProducts.filter(product => product.goodsId === this.productFilterId)
       }
+      if (this.productFilterMamory) {
+        filterProducts = filterProducts.filter(product => product.memory && product.memory.some(memory => memory.value === this.productFilterMamory))
+      }
       if (this.productFilterColor) {
-        filterProducts = filterProducts.filter(product => product.colors && product.colors.some(color => color.colorId === this.productFilterColor))
+        filterProducts = filterProducts.filter(product => product.colors && product.colors.some(color => color.value === this.productFilterColor))
       }
       return filterProducts
     },

@@ -7,18 +7,19 @@ export default [
     imageGoods: '/img/radio.jpg',
     colors: [{
       id: 1,
-      colorId: 1,
       value: '#73B6EA'
     },
     {
       id: 2,
-      colorId: 4,
       value: '#8BE000'
     },
     {
       id: 3,
-      colorId: 2,
       value: '#FFBE15'
+    },
+    {
+      id: 4,
+      value: '#FF0000'
     }
     ]
   },
@@ -30,18 +31,23 @@ export default [
     imageGoods: '/img/toothbrush.jpg',
     colors: [{
       id: 1,
-      colorId: 1,
       value: '#73B6EA'
     },
     {
       id: 2,
-      colorId: 4,
       value: '#8BE000'
     },
     {
       id: 3,
-      colorId: 2,
       value: '#FFBE15'
+    },
+    {
+      id: 4,
+      value: '#000000'
+    },
+    {
+      id: 5,
+      value: '#FF0000'
     }
     ]
   },
@@ -50,7 +56,10 @@ export default [
     goodsId: 2,
     titleGoods: 'Смартфон Xiaomi Mi Mix 3 6/128GB',
     priceGoods: '21790',
-    imageGoods: '/img/toothbrush.jpg'
+    imageGoods: '/img/toothbrush.jpg',
+    memory: [{
+      value: '128'
+    }]
   },
   {
     id: 4,
@@ -64,14 +73,20 @@ export default [
     goodsId: 2,
     titleGoods: 'Смартфон Xiaomi Mi A3 4/64GB Android One  ',
     priceGoods: '14960 ',
-    imageGoods: '/img/phone-2.jpg'
+    imageGoods: '/img/phone-2.jpg',
+    memory: [{
+      value: '64'
+    }]
   },
   {
     id: 6,
     goodsId: 2,
     titleGoods: 'Смартфон Xiaomi Redmi 6/128GB',
     priceGoods: '8960 ',
-    imageGoods: '/img/phone-3.jpg'
+    imageGoods: '/img/phone-3.jpg',
+    memory: [{
+      value: '128'
+    }]
   },
   {
     id: 7,
@@ -91,22 +106,23 @@ export default [
     id: 9,
     goodsId: 2,
     titleGoods: ' Детский трюковой самокат Razor Grom ',
-    priceGoods: '4990 ₽',
+    priceGoods: '4990',
     imageGoods: '/img/scooter.jpg',
     colors: [{
       id: 1,
-      colorId: 1,
       value: '#73B6EA'
     },
     {
       id: 2,
-      colorId: 4,
       value: '#8BE000'
     },
     {
       id: 3,
-      colorId: 2,
       value: '#FFBE15'
+    },
+    {
+      id: 4,
+      value: '#ededed'
     }
     ]
   },

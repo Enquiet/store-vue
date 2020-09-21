@@ -1,6 +1,6 @@
 <template>
   <ul class="colors colors--black">
-    <li class="colors__item" v-for="color in productColors" :key="color.id">
+    <li class="colors__item" v-for="color in productColors" :key="color.value">
       <label class="colors__label">
         <input class="colors__radio sr-only"
                type="radio"   :value="color.value" checked=""  v-model="colorPick">

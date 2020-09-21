@@ -29,65 +29,7 @@
 
   <ColorsFilter :color="allColors"  :color-id.sync="currentColor"/>
 
-    <fieldset class="form__block">
-      <legend class="form__legend">Объемб в ГБ</legend>
-      <ul class="check-list">
-        <li class="check-list__item">
-          <label class="check-list__label">
-            <input class="check-list__check sr-only" type="checkbox" name="volume" value="8" checked="">
-            <span class="check-list__desc">
-                    8
-                    <span>(313)</span>
-                  </span>
-          </label>
-        </li>
-        <li class="check-list__item">
-          <label class="check-list__label">
-            <input class="check-list__check sr-only" type="checkbox" name="volume" value="16">
-            <span class="check-list__desc">
-                    16
-                    <span>(461)</span>
-                  </span>
-          </label>
-        </li>
-        <li class="check-list__item">
-          <label class="check-list__label">
-            <input class="check-list__check sr-only" type="checkbox" name="volume" value="32">
-            <span class="check-list__desc">
-                    32
-                    <span>(313)</span>
-                  </span>
-          </label>
-        </li>
-        <li class="check-list__item">
-          <label class="check-list__label">
-            <input class="check-list__check sr-only" type="checkbox" name="volume" value="64">
-            <span class="check-list__desc">
-                    64
-                    <span>(313)</span>
-                  </span>
-          </label>
-        </li>
-        <li class="check-list__item">
-          <label class="check-list__label">
-            <input class="check-list__check sr-only" type="checkbox" name="volume" value="128">
-            <span class="check-list__desc">
-                    128
-                    <span>(313)</span>
-                  </span>
-          </label>
-        </li>
-        <li class="check-list__item">
-          <label class="check-list__label">
-            <input class="check-list__check sr-only" type="checkbox" name="volume" value="264">
-            <span class="check-list__desc">
-                    264
-                    <span>(313)</span>
-                  </span>
-          </label>
-        </li>
-      </ul>
-    </fieldset>
+  <MemoryFilter  :memory="allMemory" :memory-product.sync="currentMemory" />
 
     <button class="filter__submit button button--primery" type="submit" >
       Применить
@@ -100,16 +42,18 @@
 </template>
 <script>
 import categories from '../data/catigories'
-import allColors from '../data/allColors'
+import categoriesProduсts from '../data/goods'
 import ColorsFilter from './ColorsFilter.vue'
+import MemoryFilter from './MemoryFilter.vue'
 export default {
-  components: { ColorsFilter },
+  components: { ColorsFilter, MemoryFilter },
   data () {
     return {
       currentPriceFrom: 0,
       currentPriceTo: 0,
       currentCategoryId: 0,
-      currentColor: 0
+      currentColor: '',
+      currentMemory: ''
     }
   },
   props: {
@@ -126,8 +70,12 @@ export default {
       default: 0
     },
     categoryColor: {
-      type: Number,
-      default: 0
+      type: String,
+      default: ''
+    },
+    categoryMemory: {
+      type: String,
+      default: ''
     }
   },
   computed: {
@@ -135,7 +83,20 @@ export default {
       return categories
     },
     allColors () {
-      return allColors
+      const allColors = categoriesProduсts.reduce((accmulator, item) => {
+        return item.colors ? [...accmulator, ...item.colors] : accmulator
+      }, [])
+      const uniqColor = [...new Set(allColors.map(arr => arr.value))]
+      const result = uniqColor.map(arr => allColors.find(arr2 => arr2.value === arr))
+      return result
+    },
+    allMemory () {
+      const allMemory = categoriesProduсts.reduce((accmulator, item) => {
+        return item.memory ? [...accmulator, ...item.memory] : accmulator
+      }, [])
+      const uniqMemoru = [...new Set(allMemory.map(arr => arr.value))]
+      const result = uniqMemoru.map(arr => allMemory.find(arr2 => arr2.value === arr))
+      return result
     }
   },
   watch: {
@@ -147,6 +108,12 @@ export default {
     },
     categoryId (value) {
       this.currentCategoryId = value
+    },
+    categoryColor (value) {
+      this.currentColor = value
+    },
+    categoryMemory (value) {
+      this.currentMemory = value
     }
 
   },
@@ -156,12 +123,14 @@ export default {
       this.$emit('update:priceTo', this.currentPriceTo)
       this.$emit('update:categoryId', this.currentCategoryId)
       this.$emit('update:categoryColor', this.currentColor)
+      this.$emit('update:categoryMemory', this.currentMemory)
     },
     getDefaultStatsProducts () {
       this.$emit('update:priceFrom', 0)
       this.$emit('update:priceTo', 0)
       this.$emit('update:categoryId', 0)
       this.$emit('update:categoryColor', 0)
+      this.$emit('update:categoryMemory', 0)
     }
   }
 }

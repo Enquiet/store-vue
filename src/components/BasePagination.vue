@@ -46,7 +46,7 @@ export default {
     },
     switchesPages (pages) {
       if (pages >= 1 && pages <= this.Pages) {
-        this.$emit('update:page', pages)
+        this.paginate(pages)
       }
     }
   },
