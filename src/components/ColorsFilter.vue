@@ -4,7 +4,7 @@
     <ul class="colors">
       <li class="colors__item" v-for="colors in color" :key="colors.id" >
         <label class="colors__label" >
-          <input class="colors__radio sr-only" type="checkbox" name="color" :value="colors.value" v-model="colorPick" checked="">
+          <input class="colors__radio sr-only" type="radio" name="color" :value="colors.value" v-model="colorPick" checked="">
           <span class="colors__value" :style="{background: colors.value}" >
                   </span>
         </label>
@@ -15,7 +15,6 @@
 
 <script>
 export default {
-
   props: {
     color: {
       type: Array,

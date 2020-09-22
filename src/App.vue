@@ -37,7 +37,7 @@ export default {
       productPriceTo: 0,
       productFilterId: 0,
       productFilterColor: '',
-      productFilterMamory: '',
+      productFilterMamory: [],
 
       page: 1,
       NumberProductsPerPage: 4
@@ -45,7 +45,6 @@ export default {
     }
   },
   computed: {
-
     getFilterProducts () {
       let filterProducts = goods
 
@@ -59,8 +58,12 @@ export default {
       if (this.productFilterId) {
         filterProducts = filterProducts.filter(product => product.goodsId === this.productFilterId)
       }
-      if (this.productFilterMamory) {
-        filterProducts = filterProducts.filter(product => product.memory && product.memory.some(memory => memory.value === this.productFilterMamory))
+      if (this.productFilterMamory > 1) {
+        const allProductMemory = this.productFilterMamory.reduce((acc, item) => {
+          return [...acc, ...item]
+        })
+        console.log(allProductMemory)
+        filterProducts = filterProducts.filter(product => product.memory && product.memory.some(memory => memory.value === allProductMemory))
       }
       if (this.productFilterColor) {
         filterProducts = filterProducts.filter(product => product.colors && product.colors.some(color => color.value === this.productFilterColor))

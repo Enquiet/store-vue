@@ -58,7 +58,8 @@ export default [
     priceGoods: '21790',
     imageGoods: '/img/toothbrush.jpg',
     memory: [{
-      value: '128'
+      idValue: 2,
+      value: 128
     }]
   },
   {
@@ -75,7 +76,8 @@ export default [
     priceGoods: '14960 ',
     imageGoods: '/img/phone-2.jpg',
     memory: [{
-      value: '64'
+      idValue: 1,
+      value: 64
     }]
   },
   {
@@ -85,7 +87,8 @@ export default [
     priceGoods: '8960 ',
     imageGoods: '/img/phone-3.jpg',
     memory: [{
-      value: '128'
+      idValue: 2,
+      value: 128
     }]
   },
   {

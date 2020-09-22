@@ -29,7 +29,7 @@
 
   <ColorsFilter :color="allColors"  :color-id.sync="currentColor"/>
 
-  <MemoryFilter  :memory="allMemory" :memory-product.sync="currentMemory" />
+  <MemoryFilter  :memory-list="allMemory" :memory-product.sync="currentMemory" :quantity-products="getQuantityProductsMemory"/>
 
     <button class="filter__submit button button--primery" type="submit" >
       Применить
@@ -53,10 +53,11 @@ export default {
       currentPriceTo: 0,
       currentCategoryId: 0,
       currentColor: '',
-      currentMemory: ''
+      currentMemory: []
     }
   },
   props: {
+
     priceTo: {
       type: Number,
       default: 0
@@ -74,30 +75,36 @@ export default {
       default: ''
     },
     categoryMemory: {
-      type: String,
-      default: ''
+      type: Array,
+      default: () => []
     }
   },
   computed: {
+    getQuantityProductsMemory () {
+      const quantityProducts = categoriesProduсts
+        .reduce((acc, item) => {
+          return item.memory ? [...acc, ...item.memory] : acc
+        }, [])
+        .filter(arr => arr.idValue)
+      console.log(quantityProducts)
+      return quantityProducts
+    },
     categories () {
       return categories
     },
     allColors () {
-      const allColors = categoriesProduсts.reduce((accmulator, item) => {
+      const colorsItem = categoriesProduсts.reduce((accmulator, item) => {
         return item.colors ? [...accmulator, ...item.colors] : accmulator
       }, [])
-      const uniqColor = [...new Set(allColors.map(arr => arr.value))]
-      const result = uniqColor.map(arr => allColors.find(arr2 => arr2.value === arr))
-      return result
+      return this.getParamProduct(colorsItem)
     },
     allMemory () {
-      const allMemory = categoriesProduсts.reduce((accmulator, item) => {
+      const memoryItem = categoriesProduсts.reduce((accmulator, item) => {
         return item.memory ? [...accmulator, ...item.memory] : accmulator
       }, [])
-      const uniqMemoru = [...new Set(allMemory.map(arr => arr.value))]
-      const result = uniqMemoru.map(arr => allMemory.find(arr2 => arr2.value === arr))
-      return result
+      return this.getParamProduct(memoryItem)
     }
+
   },
   watch: {
     priceTo (value) {
@@ -118,6 +125,12 @@ export default {
 
   },
   methods: {
+    getParamProduct (param) {
+      const uniqMemoru = [...new Set(param.map(arr => arr.value))]
+      const result = uniqMemoru.map(arr => param.find(arr2 => arr2.value === arr))
+      return result
+    },
+
     getNewStatsProducts () {
       this.$emit('update:priceFrom', this.currentPriceFrom)
       this.$emit('update:priceTo', this.currentPriceTo)
@@ -129,8 +142,8 @@ export default {
       this.$emit('update:priceFrom', 0)
       this.$emit('update:priceTo', 0)
       this.$emit('update:categoryId', 0)
-      this.$emit('update:categoryColor', 0)
-      this.$emit('update:categoryMemory', 0)
+      this.$emit('update:categoryColor', '')
+      this.$emit('update:categoryMemory', [])
     }
   }
 }
