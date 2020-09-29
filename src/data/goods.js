@@ -18,7 +18,7 @@ export default [
       value: '#FFBE15'
     },
     {
-      id: 4,
+      id: 5,
       value: '#FF0000'
     }
     ]
@@ -57,10 +57,9 @@ export default [
     titleGoods: 'Смартфон Xiaomi Mi Mix 3 6/128GB',
     priceGoods: '21790',
     imageGoods: '/img/toothbrush.jpg',
-    memory: [{
-      idValue: 2,
-      value: 128
-    }]
+    memory: [
+      { value: 128 }
+    ]
   },
   {
     id: 4,
@@ -75,10 +74,9 @@ export default [
     titleGoods: 'Смартфон Xiaomi Mi A3 4/64GB Android One  ',
     priceGoods: '14960 ',
     imageGoods: '/img/phone-2.jpg',
-    memory: [{
-      idValue: 1,
-      value: 64
-    }]
+    memory: [
+      { value: 64 }
+    ]
   },
   {
     id: 6,
@@ -86,10 +84,9 @@ export default [
     titleGoods: 'Смартфон Xiaomi Redmi 6/128GB',
     priceGoods: '8960 ',
     imageGoods: '/img/phone-3.jpg',
-    memory: [{
-      idValue: 2,
-      value: 128
-    }]
+    memory: [
+      { value: 128 }
+    ]
   },
   {
     id: 7,
@@ -124,7 +121,7 @@ export default [
       value: '#FFBE15'
     },
     {
-      id: 4,
+      id: 6,
       value: '#ededed'
     }
     ]

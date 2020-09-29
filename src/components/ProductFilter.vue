@@ -57,7 +57,6 @@ export default {
     }
   },
   props: {
-
     priceTo: {
       type: Number,
       default: 0
@@ -81,13 +80,23 @@ export default {
   },
   computed: {
     getQuantityProductsMemory () {
+      const repeatedMemory = {
+        64: 0,
+        128: 0
+      }
       const quantityProducts = categoriesProduсts
-        .reduce((acc, item) => {
-          return item.memory ? [...acc, ...item.memory] : acc
+        .reduce((accmulator, item) => {
+          return item.memory ? [...accmulator, ...item.memory] : accmulator
         }, [])
-        .filter(arr => arr.idValue)
-      console.log(quantityProducts)
-      return quantityProducts
+      for (let i = 0; i < quantityProducts.length; i++) {
+        if (quantityProducts[i].value === 128) {
+          repeatedMemory['128'] = repeatedMemory['128'] + 1
+        }
+        if (quantityProducts[i].value === 64) {
+          repeatedMemory['64'] = repeatedMemory['64'] + 1
+        }
+      }
+      return repeatedMemory
     },
     categories () {
       return categories
@@ -96,15 +105,14 @@ export default {
       const colorsItem = categoriesProduсts.reduce((accmulator, item) => {
         return item.colors ? [...accmulator, ...item.colors] : accmulator
       }, [])
-      return this.getParamProduct(colorsItem)
+      return this.getFilteredCategory(colorsItem)
     },
     allMemory () {
       const memoryItem = categoriesProduсts.reduce((accmulator, item) => {
         return item.memory ? [...accmulator, ...item.memory] : accmulator
       }, [])
-      return this.getParamProduct(memoryItem)
+      return this.getFilteredCategory(memoryItem)
     }
-
   },
   watch: {
     priceTo (value) {
@@ -125,12 +133,12 @@ export default {
 
   },
   methods: {
-    getParamProduct (param) {
-      const uniqMemoru = [...new Set(param.map(arr => arr.value))]
-      const result = uniqMemoru.map(arr => param.find(arr2 => arr2.value === arr))
+    getFilteredCategory (item) {
+      const uniqItem = [...new Set(item.map(arr => arr.value))]
+      const resultSort = uniqItem.sort((a, b) => a - b)
+      const result = resultSort.map(arr => item.find(arr2 => arr2.value === arr))
       return result
     },
-
     getNewStatsProducts () {
       this.$emit('update:priceFrom', this.currentPriceFrom)
       this.$emit('update:priceTo', this.currentPriceTo)
