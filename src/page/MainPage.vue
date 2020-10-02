@@ -13,7 +13,7 @@
       <ProductFilter  :price-to.sync="productPriceTo" :price-from.sync="productPriceFrom"  :category-id.sync="productFilterId"
       :category-color.sync="productFilterColor" :category-memory.sync="productFilterMamory"/>
       <section class="catalog">
-        <ProductList :productList="goods"/>
+        <ProductList :productList="goods" />
         <BasePagination :page.sync="page" :all-products="getAllProduct" :per-products="NumberProductsPerPage"/>
       </section>
     </div>
