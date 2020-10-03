@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import MainPage from './page/MainPage.vue'
-import ProductPage from './page/ProductPage.vue'
-import NotFoundPage from './page/NotFoundPage.vue'
-import Event from '@/event'
+import MainPage from './pages/MainPage.vue'
+import ProductPage from './pages/ProductPage.vue'
+import NotFoundPage from './pages/NotFoundPage.vue'
+import Event from '@/helpers/eventBus'
 
 const routerPage = {
   mainPage: 'MainPage',

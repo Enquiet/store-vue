@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     paginate (page) {
-      this.$emit('update:page', page)
+      this.$emit('update:pages', page)
     },
     switchesPages (pages) {
       if (pages >= 1 && pages <= this.Pages) {

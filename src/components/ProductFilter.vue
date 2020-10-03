@@ -45,6 +45,9 @@ import categories from '../data/catigories'
 import categoriesProduсts from '../data/goods'
 import ColorsFilter from './ColorsFilter.vue'
 import MemoryFilter from './MemoryFilter.vue'
+
+const VOLUME_MEMORY = [32, 64, 128]
+
 export default {
   components: { ColorsFilter, MemoryFilter },
   data () {
@@ -81,19 +84,19 @@ export default {
   computed: {
     getQuantityProductsMemory () {
       const repeatedMemory = {
-        64: 0,
-        128: 0
+        [VOLUME_MEMORY[0]]: 0,
+        [VOLUME_MEMORY[1]]: 0,
+        [VOLUME_MEMORY[2]]: 0
+
       }
+      console.log(repeatedMemory)
       const quantityProducts = categoriesProduсts
         .reduce((accmulator, item) => {
           return item.memory ? [...accmulator, ...item.memory] : accmulator
         }, [])
       for (let i = 0; i < quantityProducts.length; i++) {
-        if (quantityProducts[i].value === 128) {
-          repeatedMemory['128'] = repeatedMemory['128'] + 1
-        }
-        if (quantityProducts[i].value === 64) {
-          repeatedMemory['64'] = repeatedMemory['64'] + 1
+        if (repeatedMemory[quantityProducts[i].value] !== undefined) {
+          repeatedMemory[quantityProducts[i].value] += 1
         }
       }
       return repeatedMemory
