@@ -46,8 +46,13 @@ import categoriesProduсts from '../data/goods'
 import ColorsFilter from './ColorsFilter.vue'
 import MemoryFilter from './MemoryFilter.vue'
 
+const repeatedMemory = {}
 const VOLUME_MEMORY = [32, 64, 128]
+VOLUME_MEMORY.forEach((item) => {
+  repeatedMemory[item] = 0
+})
 
+console.log(repeatedMemory)
 export default {
   components: { ColorsFilter, MemoryFilter },
   data () {
@@ -83,13 +88,6 @@ export default {
   },
   computed: {
     getQuantityProductsMemory () {
-      const repeatedMemory = {
-        [VOLUME_MEMORY[0]]: 0,
-        [VOLUME_MEMORY[1]]: 0,
-        [VOLUME_MEMORY[2]]: 0
-
-      }
-      console.log(repeatedMemory)
       const quantityProducts = categoriesProduсts
         .reduce((accmulator, item) => {
           return item.memory ? [...accmulator, ...item.memory] : accmulator

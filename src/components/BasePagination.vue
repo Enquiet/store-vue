@@ -1,4 +1,4 @@
---<template>
+<template>
      <ul class="catalog__pagination pagination">
       <li class="pagination__item" @click.prevent="switchesPages(page - 1)">
         <a class="pagination__link pagination__link--arrow"
