@@ -1,21 +1,21 @@
 <template>
      <ul class="catalog__pagination pagination">
-      <li class="pagination__item" @click.prevent="switchesPages(page - 1)">
+      <li class="pagination__item" @click.prevent="switchesPages(currentPage - 1)">
         <a class="pagination__link pagination__link--arrow"
-        :class="{'pagination__link--disabled':page === 1 }" aria-label="Предыдущая страница">
+        :class="{'pagination__link--disabled':currentPage === 1 }" aria-label="Предыдущая страница">
           <svg width="8" height="14" fill="currentColor">
             <use xlink:href="#icon-arrow-left"></use>
           </svg>
         </a>
       </li>
       <li class="pagination__item" v-for="pageNumber in Pages" :key="pageNumber" @click.prevent="paginate(pageNumber)">
-        <a href="#" class="pagination__link" :class="{'pagination__link--current' : pageNumber === page }">
+        <a href="#" class="pagination__link" :class="{'pagination__link--current' : pageNumber === currentPage }">
           {{pageNumber}}
         </a>
       </li>
-      <li class="pagination__item" @click.prevent="switchesPages(page + 1)" >
+      <li class="pagination__item" @click.prevent="switchesPages(currentPage + 1)" >
         <a class="pagination__link
-        pagination__link--arrow" :class="{'pagination__link--disabled':page === Pages}"  href="#" aria-label="Следующая страница" >
+        pagination__link--arrow" :class="{'pagination__link--disabled':currentPage === Pages}"  href="#" aria-label="Следующая страница" >
           <svg width="8" height="14" fill="currentColor">
             <use xlink:href="#icon-arrow-right"></use>
           </svg>
@@ -27,7 +27,7 @@
 <script>
 export default {
   props: {
-    page: {
+    currentPage: {
       type: Number,
       default: 0
     },
@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     paginate (page) {
-      this.$emit('update:pages', page)
+      this.$emit('update:currentPage', page)
     },
     switchesPages (pages) {
       if (pages >= 1 && pages <= this.Pages) {

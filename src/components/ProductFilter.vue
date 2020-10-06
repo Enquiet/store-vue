@@ -45,14 +45,7 @@ import categories from '../data/catigories'
 import categoriesProduсts from '../data/goods'
 import ColorsFilter from './ColorsFilter.vue'
 import MemoryFilter from './MemoryFilter.vue'
-
-const repeatedMemory = {}
 const VOLUME_MEMORY = [32, 64, 128]
-VOLUME_MEMORY.forEach((item) => {
-  repeatedMemory[item] = 0
-})
-
-console.log(repeatedMemory)
 export default {
   components: { ColorsFilter, MemoryFilter },
   data () {
@@ -84,10 +77,18 @@ export default {
     categoryMemory: {
       type: Array,
       default: () => []
+    },
+    currentPage: {
+      type: Number,
+      default: 0
     }
   },
   computed: {
     getQuantityProductsMemory () {
+      const repeatedMemory = {}
+      VOLUME_MEMORY.forEach((item) => {
+        repeatedMemory[item] = 0
+      })
       const quantityProducts = categoriesProduсts
         .reduce((accmulator, item) => {
           return item.memory ? [...accmulator, ...item.memory] : accmulator
@@ -130,8 +131,10 @@ export default {
     },
     categoryMemory (value) {
       this.currentMemory = value
+    },
+    currentPage (value) {
+      this.currentPage = value
     }
-
   },
   methods: {
     getFilteredCategory (item) {
@@ -146,6 +149,7 @@ export default {
       this.$emit('update:categoryId', this.currentCategoryId)
       this.$emit('update:categoryColor', this.currentColor)
       this.$emit('update:categoryMemory', this.currentMemory)
+      this.$emit('update:currentPage', 1)
     },
     getDefaultStatsProducts () {
       this.$emit('update:priceFrom', 0)

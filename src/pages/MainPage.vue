@@ -11,10 +11,10 @@
 
     <div class="content__catalog">
       <ProductFilter  :price-to.sync="productPriceTo" :price-from.sync="productPriceFrom"  :category-id.sync="productFilterId"
-      :category-color.sync="productFilterColor" :category-memory.sync="productFilterMamory"/>
+      :category-color.sync="productFilterColor" :category-memory.sync="productFilterMamory" :current-page.sync="page"/>
       <section class="catalog">
         <ProductList :productList="goods" />
-        <BasePagination :page.sync="page" :all-products="getAllProduct" :per-products="NumberProductsPerPage"/>
+        <BasePagination  :current-page.sync="page" :all-products="getAllProduct" :per-products="NumberProductsPerPage"/>
       </section>
     </div>
   </main>
