@@ -40,18 +40,10 @@
 
             <fieldset class="form__block">
               <legend class="form__legend">Цвет:</legend>
-              <ul class="colors">
-                <li class="colors__item" v-for="colorProduct in productInfo.colors" :key="colorProduct.id">
-                  <label class="colors__label">
-                    <input class="colors__radio sr-only" type="radio" name="color-item" :value="colorProduct.value" checked="">
-                    <span class="colors__value" :style="{background: colorProduct.value}">
-                    </span>
-                  </label>
-                </li>
-              </ul>
+              <ProductColors v-if="productInfo.colors" :productColors="productInfo.colors"/>
             </fieldset>
 
-            <fieldset class="form__block">
+            <fieldset v-if="productInfo.memory" class="form__block">
               <legend class="form__legend">Объемб в ГБ:</legend>
               <ul class="sizes sizes--primery">
                 <li class="sizes__item" v-for="memoryProduct in productInfo.memory" :key="memoryProduct.id">
@@ -148,7 +140,11 @@ import goods from '@/data/goods'
 import catigories from '@/data/catigories'
 import switchPages from '@/helpers/switchPages'
 import numberFormat from '@/helpers/numberFormat'
+import ProductColors from '@/components/ProductColors.vue'
 export default {
+  components: {
+    ProductColors
+  },
   props: {
     pageParams: {
       type: Object,

@@ -1,6 +1,8 @@
 export default function getNumberFormat (val) {
-  console.log(typeof (val))
-  if (typeof val === 'number') {
-    return new Intl.NumberFormat().format(val)
+  switch (typeof val) {
+    case 'number':
+      return new Intl.NumberFormat().format(val)
+    default:
+      val = 0
   }
 }

@@ -58,23 +58,23 @@ export default {
     }
   },
   props: {
-    priceTo: {
+    productPriceFrom: {
       type: Number,
       default: 0
     },
-    priceFrom: {
+    productPriceTo: {
       type: Number,
       default: 0
     },
-    categoryId: {
+    productFilterId: {
       type: Number,
       default: 0
     },
-    categoryColor: {
+    productFilterColor: {
       type: String,
       default: ''
     },
-    categoryMemory: {
+    productFilterMamory: {
       type: Array,
       default: () => []
     },
@@ -117,19 +117,19 @@ export default {
     }
   },
   watch: {
-    priceTo (value) {
+    currentPriceTo (value) {
       this.currentPriceTo = value
     },
-    priceFrom (value) {
+    currentPriceFrom (value) {
       this.currentPriceFrom = value
     },
-    categoryId (value) {
+    productFilterId (value) {
       this.currentCategoryId = value
     },
-    categoryColor (value) {
+    productFilterColor (value) {
       this.currentColor = value
     },
-    categoryMemory (value) {
+    productFilterMamory (value) {
       this.currentMemory = value
     },
     currentPage (value) {
@@ -144,19 +144,19 @@ export default {
       return result
     },
     getNewStatsProducts () {
-      this.$emit('update:priceFrom', this.currentPriceFrom)
-      this.$emit('update:priceTo', this.currentPriceTo)
-      this.$emit('update:categoryId', this.currentCategoryId)
-      this.$emit('update:categoryColor', this.currentColor)
-      this.$emit('update:categoryMemory', this.currentMemory)
+      this.$emit('update:productPriceFrom', this.currentPriceFrom)
+      this.$emit('update:productPriceTo', this.currentPriceTo)
+      this.$emit('update:productFilterId', this.currentCategoryId)
+      this.$emit('update:productFilterColor', this.currentColor)
+      this.$emit('update:productFilterMamory', this.currentMemory)
       this.$emit('update:currentPage', 1)
     },
     getDefaultStatsProducts () {
-      this.$emit('update:priceFrom', 0)
-      this.$emit('update:priceTo', 0)
-      this.$emit('update:categoryId', 0)
-      this.$emit('update:categoryColor', '')
-      this.$emit('update:categoryMemory', [])
+      this.$emit('update:productPriceFrom', 0)
+      this.$emit('update:productPriceTo', 0)
+      this.$emit('update:productFilterId', 0)
+      this.$emit('update:productFilterColor', '')
+      this.$emit('update:productFilterMamory', [])
     }
   }
 }

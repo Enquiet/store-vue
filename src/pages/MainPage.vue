@@ -10,8 +10,7 @@
     </div>
 
     <div class="content__catalog">
-      <ProductFilter  :price-to.sync="productPriceTo" :price-from.sync="productPriceFrom"  :category-id.sync="productFilterId"
-      :category-color.sync="productFilterColor" :category-memory.sync="productFilterMamory" :current-page.sync="page"/>
+      <ProductFilter  v-bind.sync="allFiltres" :current-page.sync="page"/>
       <section class="catalog">
         <ProductList :productList="goods" />
         <BasePagination  :current-page.sync="page" :all-products="getAllProduct" :per-products="NumberProductsPerPage"/>
@@ -32,12 +31,13 @@ export default {
 
   data () {
     return {
-      productPriceFrom: 0,
-      productPriceTo: 0,
-      productFilterId: 0,
-      productFilterColor: '',
-      productFilterMamory: [],
-
+      allFiltres: {
+        productPriceFrom: 0,
+        productPriceTo: 0,
+        productFilterId: 0,
+        productFilterColor: '',
+        productFilterMamory: []
+      },
       page: 1,
       NumberProductsPerPage: 4
 
@@ -46,26 +46,25 @@ export default {
   computed: {
     getFilterProducts () {
       let filterProducts = goods
-
-      if (this.productPriceFrom > 0) {
-        filterProducts = filterProducts.filter(product => product.priceGoods > this.productPriceFrom)
+      if (this.allFiltres.productPriceFrom > 0) {
+        filterProducts = filterProducts.filter(product => product.priceGoods > this.allFiltres.productPriceFrom)
       }
 
-      if (this.productPriceTo > 0) {
-        filterProducts = filterProducts.filter(product => product.priceGoods < this.productPriceTo)
+      if (this.allFiltres.productPriceTo > 0) {
+        filterProducts = filterProducts.filter(product => product.priceGoods < this.allFiltres.productPriceTo)
       }
-      if (this.productFilterId) {
-        filterProducts = filterProducts.filter(product => product.goodsId === this.productFilterId)
+      if (this.allFiltres.productFilterId) {
+        filterProducts = filterProducts.filter(product => product.goodsId === this.allFiltres.productFilterId)
       }
-      if (this.productFilterMamory > 0) {
+      if (this.allFiltres.productFilterMamory > 0) {
         let allProductMemory
-        for (let i = 0; i < this.productFilterMamory.length; i++) {
-          allProductMemory = this.productFilterMamory[i]
+        for (let i = 0; i < this.allFiltres.productFilterMamory.length; i++) {
+          allProductMemory = this.allFiltres.productFilterMamory[i]
         }
         filterProducts = filterProducts.filter(product => product.memory && product.memory.every(color => color.value === allProductMemory))
       }
-      if (this.productFilterColor) {
-        filterProducts = filterProducts.filter(product => product.colors && product.colors.some(color => color.value === this.productFilterColor))
+      if (this.allFiltres.productFilterColor) {
+        filterProducts = filterProducts.filter(product => product.colors && product.colors.some(color => color.value === this.allFiltres.productFilterColor))
       }
       return filterProducts
     },
