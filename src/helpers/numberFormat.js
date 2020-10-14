@@ -3,6 +3,6 @@ export default function getNumberFormat (val) {
     case 'number':
       return new Intl.NumberFormat().format(val)
     default:
-      val = 0
+      return 0
   }
 }
