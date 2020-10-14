@@ -1,8 +1,8 @@
 <template>
     <div>
-        <a class="catalog__pic" href="#"  >
-            <img :src="product.imageGoods" alt="Название товара" @click.prevent="switchPages('productPage', {id:product.id})">
-        </a>
+        <router-link class="catalog__pic" :to="{name:'productPage', params: {id: product.id}}" >
+            <img :src="product.imageGoods" alt="Название товара">
+        </router-link>
         <h3 class="catalog__title">
             <a href="#">
             {{product.titleGoods}}

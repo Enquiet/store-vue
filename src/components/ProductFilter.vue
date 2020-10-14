@@ -27,7 +27,7 @@
       </label>
     </fieldset>
 
-  <ColorsFilter :color="allColors"  :color-id.sync="currentColor"/>
+  <ColorsFilter :colors="allColors"  :color-id.sync="currentColor"/>
 
   <MemoryFilter  :memory-list="allMemory" :memory-product.sync="currentMemory" :quantity-products="getQuantityProductsMemory"/>
 

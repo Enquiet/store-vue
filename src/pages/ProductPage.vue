@@ -3,14 +3,14 @@
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="#" @click.prevent="switchPages('mainPage')">
+          <router-link class="breadcrumbs__link" :to="{name:'mainPage'}">
             Каталог
-          </a>
+          </router-link>
         </li>
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="#" @click.prevent="switchPages('mainPage')" >
+          <router-link class="breadcrumbs__link" :to="{name:'mainPage'}">
             {{productCatigories.title}}
-          </a>
+          </router-link>
         </li>
         <li class="breadcrumbs__item">
           <a class="breadcrumbs__link">
@@ -28,18 +28,18 @@
       </div>
 
       <div class="item__info">
-        <span class="item__code">Артикул: 150030</span>
+        <span class="item__code">Артикул:  {{productInfo.id}}</span>
         <h2 class="item__title">
          {{productInfo.titleGoods}}
         </h2>
         <div class="item__form">
-          <form class="form" action="#" method="POST">
+          <form class="form" action="#" method="POST" @submit.prevent="addToCard">
             <b class="item__price">
               {{productInfo.priceGoods | numberFormat }}
             </b>
 
             <fieldset class="form__block">
-              <legend class="form__legend">Цвет:</legend>
+              <legend v-if="productInfo.colors" class="form__legend">Цвет:</legend>
               <ProductColors v-if="productInfo.colors" :productColors="productInfo.colors"/>
             </fieldset>
 
@@ -59,15 +59,15 @@
 
             <div class="item__row">
               <div class="form__counter">
-                <button type="button" aria-label="Убрать один товар">
+                <button type="button" aria-label="Убрать один товар" :disabled="productAmaunt === 1" @click.prevent="(productAmaunt--)">
                   <svg width="12" height="12" fill="currentColor">
                     <use xlink:href="#icon-minus"></use>
                   </svg>
                 </button>
 
-                <input type="text" value="1" name="count">
+                <input type="text" v-model.number="productAmaunt">
 
-                <button type="button" aria-label="Добавить один товар">
+                <button type="button" aria-label="Добавить один товар" @click.prevent="(productAmaunt++)">
                   <svg width="12" height="12" fill="currentColor">
                     <use xlink:href="#icon-plus"></use>
                   </svg>
@@ -138,10 +138,14 @@
 <script>
 import goods from '@/data/goods'
 import catigories from '@/data/catigories'
-import switchPages from '@/helpers/switchPages'
 import numberFormat from '@/helpers/numberFormat'
 import ProductColors from '@/components/ProductColors.vue'
 export default {
+  data () {
+    return {
+      productAmaunt: 1
+    }
+  },
   components: {
     ProductColors
   },
@@ -156,14 +160,19 @@ export default {
   },
   computed: {
     productInfo () {
-      return goods.find(product => product.id === this.pageParams.id)
+      return goods.find(product => product.id === +this.$route.params.id)
     },
     productCatigories () {
       return catigories.find(category => category.id === this.productInfo.goodsId)
     }
   },
   methods: {
-    switchPages
+    addToCard () {
+      this.$store.commit(
+        'addProductsCard',
+        { productId: this.productInfo.id, amount: this.productAmaunt }
+      )
+    }
   }
 }
 </script>

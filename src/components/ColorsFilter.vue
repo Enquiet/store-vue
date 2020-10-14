@@ -2,10 +2,10 @@
   <fieldset class="form__block">
     <legend class="form__legend">Цвет</legend>
     <ul class="colors">
-      <li class="colors__item" v-for="colors in color" :key="colors.id" >
+      <li class="colors__item" v-for="color in colors" :key="color.id" >
         <label class="colors__label" >
-          <input class="colors__radio sr-only" type="radio" name="color" :value="colors.value" v-model="colorPick" checked="">
-          <span class="colors__value" :style="{background: colors.value}" >
+          <input class="colors__radio sr-only" type="radio" name="color" :value="color.value" v-model="colorPick" checked="">
+          <span class="colors__value" :style="{background: color.value}" >
                   </span>
         </label>
       </li>
@@ -16,7 +16,7 @@
 <script>
 export default {
   props: {
-    color: {
+    colors: {
       type: Array,
       default: () => []
     },
