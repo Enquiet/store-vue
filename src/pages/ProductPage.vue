@@ -149,12 +149,6 @@ export default {
   components: {
     ProductColors
   },
-  props: {
-    pageParams: {
-      type: Object,
-      default: () => []
-    }
-  },
   filters: {
     numberFormat
   },
