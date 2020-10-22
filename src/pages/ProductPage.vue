@@ -58,21 +58,7 @@
             </fieldset>
 
             <div class="item__row">
-              <div class="form__counter">
-                <button type="button" aria-label="Убрать один товар" :disabled="productAmaunt === 1" @click.prevent="(productAmaunt--)">
-                  <svg width="12" height="12" fill="currentColor">
-                    <use xlink:href="#icon-minus"></use>
-                  </svg>
-                </button>
-
-                <input type="text" v-model.number="productAmaunt">
-
-                <button type="button" aria-label="Добавить один товар" @click.prevent="(productAmaunt++)">
-                  <svg width="12" height="12" fill="currentColor">
-                    <use xlink:href="#icon-plus"></use>
-                  </svg>
-                </button>
-              </div>
+              <FormCounter :product-amaunt.sync="productAmaunt"/>
 
               <button class="button button--primery" type="submit">
                 В корзину
@@ -140,6 +126,7 @@ import goods from '@/data/goods'
 import catigories from '@/data/catigories'
 import numberFormat from '@/helpers/numberFormat'
 import ProductColors from '@/components/ProductColors.vue'
+import FormCounter from '@/components/FormCounter.vue'
 export default {
   data () {
     return {
@@ -147,7 +134,7 @@ export default {
     }
   },
   components: {
-    ProductColors
+    ProductColors, FormCounter
   },
   filters: {
     numberFormat
