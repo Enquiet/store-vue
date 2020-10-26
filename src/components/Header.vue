@@ -11,15 +11,15 @@
         8 800 600 90 09
       </a>
 
-     <CardIndecator/>
+     <CartIndecator/>
     </div>
     </header>
 </template>
 
 <script>
-import CardIndecator from '@/components/CardIndecator.vue'
+import CartIndecator from '@/components/CartIndecator.vue'
 
 export default {
-  components: { CardIndecator }
+  components: { CartIndecator }
 }
 </script>

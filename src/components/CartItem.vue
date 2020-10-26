@@ -1,8 +1,8 @@
 <template>
   <li class="cart__item product">
-    <div class="product__pic">
+    <router-link class="product__pic" :to="{name: 'productPage', params: {id: itemProduct.product.id}}">
       <img :src="itemProduct.product.imageGoods" width="120" height="120"  :alt="itemProduct.product.titleGoods">
-    </div>
+    </router-link>
     <h3 class="product__title">
       {{itemProduct.product.titleGoods}}
     </h3>
@@ -16,7 +16,7 @@
     <FormCounter :product-amaunt.sync="amount"/>
 
     <b class="product__price">
-      {{ (itemProduct.amount * itemProduct.product.priceGoods) |  numberFormat}}
+      {{ ProductQuantityPrice |  numberFormat}}
     </b>
 
     <button class="product__del button-del" type="button" aria-label="Удалить товар из корзины" @click.prevent="deleteProduct(itemProduct.productId)">
@@ -52,6 +52,9 @@ export default {
       set (value) {
         this.$store.commit('updateProductCard', { productId: this.itemProduct.productId, amount: value })
       }
+    },
+    ProductQuantityPrice () {
+      return this.itemProduct.amount * this.itemProduct.product.priceGoods
     }
   },
   methods: {

@@ -8,7 +8,7 @@
           </router-link>
         </li>
         <li class="breadcrumbs__item">
-          <router-link class="breadcrumbs__link" :to="{name:'cardPage'}">
+          <router-link class="breadcrumbs__link" :to="{name:'cartPage'}">
             Корзина
           </router-link>
         </li>
@@ -18,7 +18,7 @@
         Корзина
       </h1>
       <span class="content__info">
-        {{$store.state.cardProducts.length}} товара
+        {{numberProduct}} товара
       </span>
     </div>
 
@@ -26,7 +26,7 @@
       <form class="cart__form form" action="#" method="POST">
         <div class="cart__field">
           <ul class="cart__list">
-            <CardItem v-for="itemProduct in addProduct" :key="itemProduct.productId" :item-product="itemProduct"/>
+            <CartItem v-for="itemProduct in this.cardDetalProducts" :key="itemProduct.productId" :item-product="itemProduct"/>
           </ul>
         </div>
 
@@ -35,7 +35,7 @@
             Мы&nbsp;посчитаем стоимость доставки на&nbsp;следующем этапе
           </p>
           <p class="cart__price">
-            Итого: <span>{{allProductPrice}}</span>
+            Итого: <span>{{this.totalPrice}}</span>
           </p>
 
           <button class="cart__button button button--primery" type="submit">
@@ -50,14 +50,17 @@
 <script>
 import numberFormat from '@/helpers/numberFormat'
 import { mapGetters } from 'vuex'
-import CardItem from '@/components/CardItem'
+import CartItem from '@/components/CartItem'
 export default {
-  components: { CardItem },
+  components: { CartItem },
   filters: {
     numberFormat
   },
   computed: {
-    ...mapGetters({ addProduct: 'cardDetalProducts', allProductPrice: 'totalPrice' })
+    ...mapGetters(['cardDetalProducts', 'totalPrice']),
+    numberProduct () {
+      return this.$store.state.cardProducts.length
+    }
   }
 }
 </script>
