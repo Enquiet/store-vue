@@ -7,11 +7,10 @@
   </router-link>
 </template>
 <script>
+import numberProduct from '@/helpers/numberProduct'
 export default {
   computed: {
-    numberProduct () {
-      return this.$store.state.cardProducts.length
-    }
+    numberProduct
   }
 }
 </script>

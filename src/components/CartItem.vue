@@ -13,7 +13,7 @@
       Артикул: {{itemProduct.product.id}}
     </span>
 
-    <FormCounter :product-amaunt.sync="amount"/>
+    <Counter :product-amaunt.sync="amount"/>
 
     <b class="product__price">
       {{ ProductQuantityPrice |  numberFormat}}
@@ -29,11 +29,11 @@
 <script>
 import numberFormat from '@/helpers/numberFormat'
 import { mapMutations } from 'vuex'
-import FormCounter from '@/components/FormCounter.vue'
+import Counter from '@/components/common/Counter.vue'
 
 export default {
   components: {
-    FormCounter
+    Counter
   },
   filters: {
     numberFormat

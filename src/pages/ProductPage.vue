@@ -58,7 +58,7 @@
             </fieldset>
 
             <div class="item__row">
-              <FormCounter :product-amaunt.sync="productAmaunt"/>
+              <Counter :product-amaunt.sync="productAmaunt"/>
 
               <button class="button button--primery" type="submit">
                 В корзину
@@ -126,7 +126,7 @@ import goods from '@/data/goods'
 import catigories from '@/data/catigories'
 import numberFormat from '@/helpers/numberFormat'
 import ProductColors from '@/components/ProductColors.vue'
-import FormCounter from '@/components/FormCounter.vue'
+import Counter from '@/components/common/Counter.vue'
 export default {
   data () {
     return {
@@ -134,7 +134,7 @@ export default {
     }
   },
   components: {
-    ProductColors, FormCounter
+    ProductColors, Counter
   },
   filters: {
     numberFormat

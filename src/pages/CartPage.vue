@@ -51,6 +51,8 @@
 import numberFormat from '@/helpers/numberFormat'
 import { mapGetters } from 'vuex'
 import CartItem from '@/components/CartItem'
+import numberProduct from '@/helpers/numberProduct'
+
 export default {
   components: { CartItem },
   filters: {
@@ -58,9 +60,7 @@ export default {
   },
   computed: {
     ...mapGetters(['cardDetalProducts', 'totalPrice']),
-    numberProduct () {
-      return this.$store.state.cardProducts.length
-    }
+    numberProduct
   }
 }
 </script>
