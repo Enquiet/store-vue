@@ -1,25 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import goods from '@/data/goods'
+import { API_URL } from '@/helpers/config'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    cardProducts: []
+    cardProducts: [],
+    userAccessKey: null,
+    cartProductItems: []
   },
   mutations: {
-    addProductsCard (state, { productId, amount }) {
-      const productItem = state.cardProducts.find(item => item.productId === productId)
-      if (productItem) {
-        productItem.amount += amount
-      } else {
-        state.cardProducts.push({
-          productId,
-          amount
-        })
-      }
-    },
     updateProductCard (state, { productId, amount }) {
       const productItem = state.cardProducts.find(item => item.productId === productId)
       if (productItem) {
@@ -28,19 +20,105 @@ export default new Vuex.Store({
     },
     deleteProdictCard (state, productId) {
       state.cardProducts = state.cardProducts.filter(item => item.productId !== productId)
+    },
+    updateAccessKey (state, accessKey) {
+      state.userAccessKey = accessKey
+    },
+    updateCartProductsItem (state, item) {
+      state.cartProductItems = item
+    },
+    syncCartProductItem (state) {
+      state.cardProducts = state.cartProductItems.map(item => {
+        return {
+          productId: item.product.id,
+          amount: item.quantity
+        }
+      })
     }
   },
   getters: {
     cardDetalProducts (state) {
       return state.cardProducts.map(item => {
+        const product = state.cartProductItems.find(goods => goods.product.id === item.productId).product
         return {
           ...item,
-          product: goods.find(p => p.id === item.productId)
+          product: {
+            ...product,
+            image: product.image.file.url
+          }
         }
       })
     },
     totalPrice (state, getters) {
-      return getters.cardDetalProducts.reduce((acc, item) => (item.product.priceGoods * item.amount) + acc, 0)
+      return getters.cardDetalProducts.reduce((acc, item) => (item.product.price * item.amount) + acc, 0)
+    }
+  },
+  actions: {
+    loaderCartProduct (context) {
+      return axios.get(API_URL + '/api/baskets', {
+        params: {
+          userAccessKey: context.state.userAccessKey
+        }
+      })
+        .then((response) => {
+          if (!context.state.userAccessKey) {
+            localStorage.setItem('userAccessKey', response.data.user.accessKey)
+            context.commit('updateAccessKey', response.data.user.accessKey)
+          }
+          context.commit('updateCartProductsItem', response.data.items)
+          context.commit('syncCartProductItem')
+        })
+    },
+    addProductCart (context, { productId, amount }) {
+      return axios.post(API_URL + '/api/baskets/products', {
+        productId: productId,
+        quantity: amount
+      }, {
+        params: {
+          userAccessKey: context.state.userAccessKey
+        }
+      })
+        .then((response) => {
+          context.commit('updateCartProductsItem', response.data.items)
+          context.commit('syncCartProductItem')
+        })
+    },
+    setProductAmountCart (context, { productId, amount }) {
+      context.commit('updateProductCard', { productId, amount })
+      if (amount < 1) {
+        return
+      }
+
+      return axios.put(API_URL + '/api/baskets/products', {
+        productId: productId,
+        quantity: amount
+      }, {
+        params: {
+          userAccessKey: context.state.userAccessKey
+        }
+      })
+        .then((response) => {
+          context.commit('updateCartProductsItem', response.data.items)
+        })
+        .catch(() => {
+          context.commit('syncCartProductItem')
+        })
+    },
+    deleteProductToCard (context, productId) {
+      return axios.delete(API_URL + '/api/baskets/products', {
+        data: {
+          productId: productId
+        },
+        params: {
+          userAccessKey: context.state.userAccessKey
+        }
+      })
+        .then(() => {
+          context.commit('deleteProdictCard', productId)
+        })
+        .catch(() => {
+          context.commit('syncCartProductItem')
+        })
     }
   }
 })

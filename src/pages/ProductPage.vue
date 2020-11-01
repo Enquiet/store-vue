@@ -1,5 +1,7 @@
 <template>
-      <main class="content container">
+      <PageOk v-if="loadingProduct.ok"/>
+      <PageError v-else-if="loadingProduct.error"/>
+      <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -14,7 +16,7 @@
         </li>
         <li class="breadcrumbs__item">
           <a class="breadcrumbs__link">
-            {{productInfo.titleGoods}}
+            {{productInfo.title}}
           </a>
         </li>
       </ul>
@@ -23,19 +25,19 @@
     <section class="item">
       <div class="item__pics pics">
         <div class="pics__wrapper">
-          <img width="570" height="570" :src="productInfo.imageGoods"  :alt="productInfo.titleGoods">
+          <img width="570" height="570" :src="productImage"  :alt="productInfo.title">
         </div>
       </div>
 
       <div class="item__info">
         <span class="item__code">Артикул:  {{productInfo.id}}</span>
         <h2 class="item__title">
-         {{productInfo.titleGoods}}
+         {{productInfo.title}}
         </h2>
         <div class="item__form">
           <form class="form" action="#" method="POST" @submit.prevent="addToCard">
             <b class="item__price">
-              {{productInfo.priceGoods | numberFormat }}
+              {{productInfo.price | numberFormat }}
             </b>
 
             <fieldset class="form__block">
@@ -63,6 +65,8 @@
               <button class="button button--primery" type="submit">
                 В корзину
               </button>
+              <div v-show="addProduct.ok" > Товар добавился в корзину</div>
+              <div v-show="addProduct.error" > произошла ошибка </div>
             </div>
           </form>
         </div>
@@ -122,37 +126,80 @@
 </template>
 
 <script>
-import goods from '@/data/goods'
-import catigories from '@/data/catigories'
 import numberFormat from '@/helpers/numberFormat'
 import ProductColors from '@/components/ProductColors.vue'
 import Counter from '@/components/common/Counter.vue'
+import PageOk from '@/components/loadingPage/PageOk.vue'
+import PageError from '@/components/loadingPage/PageError.vue'
+import { API_URL } from '@/helpers/config'
+import axios from 'axios'
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
-      productAmaunt: 1
+      productAmaunt: 1,
+      productData: null,
+      loadingProduct: {
+        ok: false,
+        error: false
+      },
+      addProduct: {
+        ok: false,
+        error: false
+      }
     }
   },
   components: {
-    ProductColors, Counter
+    ProductColors, Counter, PageOk, PageError
   },
   filters: {
     numberFormat
   },
   computed: {
     productInfo () {
-      return goods.find(product => product.id === +this.$route.params.id)
+      return this.productData
+    },
+    productImage () {
+      return this.productData.image.file.url
     },
     productCatigories () {
-      return catigories.find(category => category.id === this.productInfo.goodsId)
+      return this.productData.category
     }
   },
   methods: {
+    ...mapActions(['addProductCart']),
     addToCard () {
-      this.$store.commit(
-        'addProductsCard',
-        { productId: this.productInfo.id, amount: this.productAmaunt }
-      )
+      this.addProduct.ok = false
+      this.addProduct.error = false
+      this.addProductCart({ productId: this.productInfo.id, amount: this.productAmaunt })
+        .then(() => {
+          this.addProduct.ok = true
+        })
+        .catch(() => {
+          this.addProduct.error = true
+        })
+    },
+    getLoadingPRoduct () {
+      this.loadingProduct.ok = true
+      this.loadingProduct.error = false
+      axios.get(API_URL + '/api/products/' + this.$route.params.id)
+        .then((response) => {
+          this.productData = response.data
+        })
+        .catch(() => {
+          this.loadingProduct.error = true
+        })
+        .then(() => {
+          this.loadingProduct.ok = false
+        })
+    }
+  },
+  watch: {
+    '$route.params.id': {
+      handler () {
+        this.getLoadingPRoduct()
+      },
+      immediate: true
     }
   }
 }

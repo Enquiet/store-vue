@@ -4,8 +4,8 @@
     <ul class="colors">
       <li class="colors__item" v-for="color in colors" :key="color.id" >
         <label class="colors__label" >
-          <input class="colors__radio sr-only" type="radio" name="color" :value="color.value" v-model="colorPick" checked="">
-          <span class="colors__value" :style="{background: color.value}" >
+          <input class="colors__radio sr-only" type="radio" name="color" :value="color.id" v-model="colorPick" checked="">
+          <span class="colors__value" :style="{background: color.code}" >
                   </span>
         </label>
       </li>
@@ -21,8 +21,8 @@ export default {
       default: () => []
     },
     colorId: {
-      type: String,
-      default: ' '
+      type: Number,
+      default: 0
     }
   },
   computed: {

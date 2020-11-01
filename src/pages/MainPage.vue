@@ -12,7 +12,9 @@
     <div class="content__catalog">
       <ProductFilter  v-bind.sync="allFiltres" :current-page.sync="page"/>
       <section class="catalog">
-        <ProductList :productList="goods" />
+        <PageOk v-if="this.loadingProducts.ok"/>
+        <PageError v-else-if="this.loadingProducts.error"/>
+        <ProductList else :productList="goods" />
         <BasePagination  :current-page.sync="page" :all-products="getAllProduct" :per-products="NumberProductsPerPage"/>
       </section>
     </div>
@@ -21,13 +23,16 @@
 </template>
 
 <script>
-import goods from '@/data/goods'
 import ProductList from '@/components/ProductList.vue'
 import BasePagination from '@/components/BasePagination.vue'
 import ProductFilter from '@/components/ProductFilter.vue'
+import PageOk from '@/components/loadingPage/PageOk.vue'
+import PageError from '@/components/loadingPage/PageError.vue'
+import { API_URL } from '@/helpers/config'
+import axios from 'axios'
 
 export default {
-  components: { ProductList, BasePagination, ProductFilter },
+  components: { ProductList, BasePagination, ProductFilter, PageOk, PageError },
 
   data () {
     return {
@@ -35,48 +40,73 @@ export default {
         productPriceFrom: 0,
         productPriceTo: 0,
         productFilterId: 0,
-        productFilterColor: '',
+        productFilterColor: 0,
         productFilterMamory: []
       },
       page: 1,
-      NumberProductsPerPage: 4
+      NumberProductsPerPage: 6,
+      productData: null,
+
+      loadingProducts: {
+        ok: false,
+        error: false
+      }
 
     }
   },
   computed: {
-    getFilterProducts () {
-      let filterProducts = goods
-      if (this.allFiltres.productPriceFrom > 0) {
-        filterProducts = filterProducts.filter(product => product.priceGoods > this.allFiltres.productPriceFrom)
-      }
-
-      if (this.allFiltres.productPriceTo > 0) {
-        filterProducts = filterProducts.filter(product => product.priceGoods < this.allFiltres.productPriceTo)
-      }
-      if (this.allFiltres.productFilterId) {
-        filterProducts = filterProducts.filter(product => product.goodsId === this.allFiltres.productFilterId)
-      }
-      if (this.allFiltres.productFilterMamory > 0) {
-        let allProductMemory
-        for (let i = 0; i < this.allFiltres.productFilterMamory.length; i++) {
-          allProductMemory = this.allFiltres.productFilterMamory[i]
-        }
-        filterProducts = filterProducts.filter(product => product.memory && product.memory.every(color => color.value === allProductMemory))
-      }
-      if (this.allFiltres.productFilterColor) {
-        filterProducts = filterProducts.filter(product => product.colors && product.colors.some(color => color.value === this.allFiltres.productFilterColor))
-      }
-      return filterProducts
-    },
 
     goods () {
-      const offset = (this.page - 1) * this.NumberProductsPerPage
-      return this.getFilterProducts.slice(offset, offset + this.NumberProductsPerPage)
+      return this.productData ? this.productData.items.map(item => {
+        return {
+          ...item,
+          image: item.image.file.url
+        }
+      }) : []
     },
     getAllProduct () {
-      return this.getFilterProducts.length
+      return this.productData ? this.productData.pagination.total : 0
     }
+  },
+  methods: {
+    getLoadingProducts () {
+      this.loadingProducts.ok = true
+      this.loadingProducts.error = false
+      this.loadingProductsTimer = setTimeout(() => {
+        axios.get(API_URL + '/api/products', {
+          params: {
+            categoryId: this.allFiltres.productFilterId,
+            colorId: this.allFiltres.productFilterColor,
+            page: this.page,
+            limit: this.NumberProductsPerPage,
+            minPrice: this.allFiltres.productPriceFrom,
+            maxPrice: this.allFiltres.productPriceTo
 
+          }
+        })
+          .then((response) => {
+            this.productData = response.data
+          })
+          .catch(() => {
+            this.loadingProducts.error = true
+          })
+          .then(() => {
+            this.loadingProducts.ok = false
+          })
+      }, 2000)
+    }
+  },
+  created () {
+    this.getLoadingProducts()
+  },
+  watch: {
+    page () {
+      this.getLoadingProducts()
+    },
+    allFiltres: {
+      handler () { this.getLoadingProducts() },
+      deep: true
+    }
   }
 }
 </script>

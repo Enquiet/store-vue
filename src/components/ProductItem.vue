@@ -1,15 +1,15 @@
 <template>
     <div>
         <router-link class="catalog__pic" :to="{name:'productPage', params: {id: product.id}}" >
-            <img :src="product.imageGoods" alt="Название товара">
+            <img :src="product.image" alt="Название товара">
         </router-link>
         <h3 class="catalog__title">
             <a href="#">
-            {{product.titleGoods}}
+            {{product.title}}
             </a>
         </h3>
         <span class="catalog__price">
-            {{product.priceGoods | numberFormat}} ₽
+            {{product.price | numberFormat}} ₽
         </span>
       <ProductColors v-if="product.colors" :productColors="product.colors"/>
     </div>

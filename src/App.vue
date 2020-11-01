@@ -9,12 +9,25 @@
 <script>
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
+import { mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'App',
-  components: { Header, Footer }
+  components: { Header, Footer },
+  created () {
+    const saveUserKey = localStorage.getItem('userAccessKey')
+    if (saveUserKey) {
+      this.updateAccessKey(saveUserKey)
+    }
 
+    this.loaderCartProduct()
+  },
+  methods: {
+    ...mapActions(['loaderCartProduct']),
+    ...mapMutations(['updateAccessKey'])
+  }
 }
+
 </script>
 
 <style lang="scss">

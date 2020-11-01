@@ -41,10 +41,13 @@
   </aside>
 </template>
 <script>
-import categories from '../data/catigories'
+
 import categoriesProduсts from '../data/goods'
 import ColorsFilter from './ColorsFilter.vue'
 import MemoryFilter from './MemoryFilter.vue'
+import { API_URL } from '@/helpers/config'
+import axios from 'axios'
+
 const VOLUME_MEMORY = [32, 64, 128]
 export default {
   components: { ColorsFilter, MemoryFilter },
@@ -53,8 +56,10 @@ export default {
       currentPriceFrom: 0,
       currentPriceTo: 0,
       currentCategoryId: 0,
-      currentColor: '',
-      currentMemory: []
+      currentColor: 0,
+      currentMemory: [],
+      categoresData: null,
+      calorsData: null
     }
   },
   props: {
@@ -71,8 +76,8 @@ export default {
       default: 0
     },
     productFilterColor: {
-      type: String,
-      default: ''
+      type: Number,
+      default: 0
     },
     productFilterMamory: {
       type: Array,
@@ -101,13 +106,10 @@ export default {
       return repeatedMemory
     },
     categories () {
-      return categories
+      return this.categoresData ? this.categoresData.items : []
     },
     allColors () {
-      const colorsItem = categoriesProduсts.reduce((accmulator, item) => {
-        return item.colors ? [...accmulator, ...item.colors] : accmulator
-      }, [])
-      return this.getFilteredCategory(colorsItem)
+      return this.calorsData ? this.calorsData.items : []
     },
     allMemory () {
       const memoryItem = categoriesProduсts.reduce((accmulator, item) => {
@@ -137,6 +139,19 @@ export default {
     }
   },
   methods: {
+    getLoadingCategores () {
+      axios.get(API_URL + '/api/productCategories')
+        .then((response) => {
+          this.categoresData = response.data
+        })
+    },
+    getLoadingColors () {
+      axios.get(API_URL + '/api/colors')
+        .then((response) => {
+          this.calorsData = response.data
+        })
+    },
+
     getFilteredCategory (item) {
       const uniqItem = [...new Set(item.map(arr => arr.value))]
       const resultSort = uniqItem.sort((a, b) => a - b)
@@ -155,9 +170,13 @@ export default {
       this.$emit('update:productPriceFrom', 0)
       this.$emit('update:productPriceTo', 0)
       this.$emit('update:productFilterId', 0)
-      this.$emit('update:productFilterColor', '')
+      this.$emit('update:productFilterColor', 0)
       this.$emit('update:productFilterMamory', [])
     }
+  },
+  created () {
+    this.getLoadingCategores()
+    this.getLoadingColors()
   }
 }
 
