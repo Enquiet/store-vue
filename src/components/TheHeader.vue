@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import CartIndecator from '@/components/CartIndecator.vue'
+import CartIndecator from '@/components/cart/CartIndecator.vue'
 
 export default {
   components: { CartIndecator }

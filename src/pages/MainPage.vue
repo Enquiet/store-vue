@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import ProductList from '@/components/ProductList.vue'
+import ProductList from '@/components/product/ProductList.vue'
 import BasePagination from '@/components/BasePagination.vue'
 import ProductFilter from '@/components/ProductFilter.vue'
 import PageOk from '@/components/loadingPage/PageOk.vue'

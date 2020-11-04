@@ -50,17 +50,14 @@
 <script>
 import numberFormat from '@/helpers/numberFormat'
 import { mapGetters } from 'vuex'
-import CartItem from '@/components/CartItem'
-import numberProduct from '@/helpers/numberProduct'
-
+import CartItem from '@/components/cart/CartItem'
 export default {
   components: { CartItem },
   filters: {
     numberFormat
   },
   computed: {
-    ...mapGetters(['cardDetalProducts', 'totalPrice']),
-    numberProduct
+    ...mapGetters(['cardDetalProducts', 'totalPrice', 'numberProduct'])
   }
 }
 </script>

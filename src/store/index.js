@@ -51,6 +51,9 @@ export default new Vuex.Store({
     },
     totalPrice (state, getters) {
       return getters.cardDetalProducts.reduce((acc, item) => (item.product.price * item.amount) + acc, 0)
+    },
+    numberProduct (state, getters) {
+      return getters.cardDetalProducts.length
     }
   },
   actions: {

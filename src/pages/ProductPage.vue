@@ -1,7 +1,7 @@
 <template>
-      <PageOk v-if="loadingProduct.ok"/>
-      <PageError v-else-if="loadingProduct.error"/>
-      <main class="content container" v-else>
+  <PageOk v-if="loadingProduct.ok"/>
+  <NotFoundPage v-else-if="loadingProduct.error"/>
+  <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -127,10 +127,10 @@
 
 <script>
 import numberFormat from '@/helpers/numberFormat'
-import ProductColors from '@/components/ProductColors.vue'
+import ProductColors from '@/components/product/ProductColors.vue'
 import Counter from '@/components/common/Counter.vue'
 import PageOk from '@/components/loadingPage/PageOk.vue'
-import PageError from '@/components/loadingPage/PageError.vue'
+import NotFoundPage from './NotFoundPage.vue'
 import { API_URL } from '@/helpers/config'
 import axios from 'axios'
 import { mapActions } from 'vuex'
@@ -150,7 +150,7 @@ export default {
     }
   },
   components: {
-    ProductColors, Counter, PageOk, PageError
+    ProductColors, Counter, PageOk, NotFoundPage
   },
   filters: {
     numberFormat

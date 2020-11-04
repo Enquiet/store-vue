@@ -7,10 +7,10 @@
   </router-link>
 </template>
 <script>
-import numberProduct from '@/helpers/numberProduct'
+import { mapGetters } from 'vuex'
 export default {
   computed: {
-    numberProduct
+    ...mapGetters(['numberProduct'])
   }
 }
 </script>
