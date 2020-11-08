@@ -1,0 +1,14 @@
+<template>
+  <BaseFormField :title="title" :error="error">
+   <textarea class="form__input form__input--area" v-model="dataValue" :placeholder="placeholder"></textarea>
+  </BaseFormField>
+</template>
+
+<script>
+import fromFieldMixin from '@/mixins/formFieldMixin.js'
+
+export default {
+  mixins: [fromFieldMixin]
+
+}
+</script>
