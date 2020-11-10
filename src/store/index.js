@@ -7,19 +7,23 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    cardProducts: [],
+    cartProducts: [],
     userAccessKey: null,
     cartProductItems: []
   },
   mutations: {
+    clearCartProduct (state) {
+      state.cartProducts = []
+      state.cartProductItems = []
+    },
     updateProductCard (state, { productId, amount }) {
-      const productItem = state.cardProducts.find(item => item.productId === productId)
+      const productItem = state.cartProducts.find(item => item.productId === productId)
       if (productItem) {
         productItem.amount = amount
       }
     },
     deleteProdictCard (state, productId) {
-      state.cardProducts = state.cardProducts.filter(item => item.productId !== productId)
+      state.cartProducts = state.cartProducts.filter(item => item.productId !== productId)
     },
     updateAccessKey (state, accessKey) {
       state.userAccessKey = accessKey
@@ -28,7 +32,7 @@ export default new Vuex.Store({
       state.cartProductItems = item
     },
     syncCartProductItem (state) {
-      state.cardProducts = state.cartProductItems.map(item => {
+      state.cartProducts = state.cartProductItems.map(item => {
         return {
           productId: item.product.id,
           amount: item.quantity
@@ -38,7 +42,7 @@ export default new Vuex.Store({
   },
   getters: {
     cardDetalProducts (state) {
-      return state.cardProducts.map(item => {
+      return state.cartProducts.map(item => {
         const product = state.cartProductItems.find(goods => goods.product.id === item.productId).product
         return {
           ...item,

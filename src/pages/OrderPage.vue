@@ -34,7 +34,7 @@
             <FormText title="ФИО" v-model="formData.name" type="text" placeholder="Введите имя" :error="formError.name"/>
             <FormText title="Адрес доставки" v-model="formData.address" type="text" placeholder="Введите ваш адрес" :error="formError.address"/>
             <FormText title="Телефон" v-model="formData.phone" type="tel" placeholder="Введите ваш телефон" :error="formError.phone"/>
-            <FormText title="Email" v-model="formData.email" type="email" placeholder="Введите ваш телефон" :error="formError.email"/>
+            <FormText title="Email" v-model="formData.email" type="email" placeholder="Введите вашу почту" :error="formError.email"/>
             <FormTextarea title="Комментарий к заказу" v-model="formData.comment" placeholder="Ваши пожелания" :error="formError.comment"/>
 
           </div>
@@ -100,17 +100,23 @@ import FormTextarea from '@/components/form/FormTextarea.vue'
 import InfoProductCart from '@/components/InfoProductCart.vue'
 import axios from 'axios'
 import { API_URL } from '@/helpers/config.js'
+import { mapMutations } from 'vuex'
 export default {
   components: { FormText, FormTextarea, InfoProductCart },
   data () {
     return {
-      formData: {},
+      formData: {
+        comment: 'Без комментариев '
+      },
       formError: {},
       errorMessage: ''
     }
   },
   methods: {
+    ...mapMutations(['clearCartProduct']),
     order () {
+      this.errorMessage = ''
+      this.formError = {}
       axios.post(API_URL + '/api/orders', {
         ...this.formData
       }, {
@@ -118,6 +124,8 @@ export default {
           userAccessKey: this.$store.state.userAccessKey
         }
 
+      }).then(() => {
+        this.clearCartProduct()
       })
         .catch((error) => {
           this.formError = error.response.data.error.request || {}
