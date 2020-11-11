@@ -36,7 +36,6 @@
             <FormText title="Телефон" v-model="formData.phone" type="tel" placeholder="Введите ваш телефон" :error="formError.phone"/>
             <FormText title="Email" v-model="formData.email" type="email" placeholder="Введите вашу почту" :error="formError.email"/>
             <FormTextarea title="Комментарий к заказу" v-model="formData.comment" placeholder="Ваши пожелания" :error="formError.comment"/>
-
           </div>
 
           <div class="cart__options">
@@ -82,7 +81,13 @@
           </div>
         </div>
 
-       <InfoProductCart/>
+       <div class="cart__block">
+         <div v-if="this.cardDetalProducts < 1 "> Товаров в корзине нет</div>
+        <InfoProductCart  v-else v-for="infoProduct in this.cardDetalProducts" :key="infoProduct.productId" :info-product="infoProduct"/>
+          <button  class="cart__button button button--primery" type="submit">
+            Оформить заказ
+          </button>
+        </div>
         <div class="cart__error form__error-block" v-if="this.errorMessage">
           <h4>Заявка не отправлена!</h4>
           <p>
@@ -97,10 +102,11 @@
 <script>
 import FormText from '@/components/form/FormText.vue'
 import FormTextarea from '@/components/form/FormTextarea.vue'
-import InfoProductCart from '@/components/InfoProductCart.vue'
 import axios from 'axios'
 import { API_URL } from '@/helpers/config.js'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
+import InfoProductCart from '@/components/InfoProductCart.vue'
+
 export default {
   components: { FormText, FormTextarea, InfoProductCart },
   data () {
@@ -112,8 +118,11 @@ export default {
       errorMessage: ''
     }
   },
+  computed: {
+    ...mapGetters(['cardDetalProducts'])
+  },
   methods: {
-    ...mapMutations(['clearCartProduct']),
+    ...mapMutations(['clearCartProduct', 'updateOrderInfo']),
     order () {
       this.errorMessage = ''
       this.formError = {}
@@ -124,8 +133,10 @@ export default {
           userAccessKey: this.$store.state.userAccessKey
         }
 
-      }).then(() => {
+      }).then((response) => {
         this.clearCartProduct()
+        this.updateOrderInfo(response.data)
+        this.$router.push({ name: 'infoPage', params: { id: response.data.id } })
       })
         .catch((error) => {
           this.formError = error.response.data.error.request || {}
