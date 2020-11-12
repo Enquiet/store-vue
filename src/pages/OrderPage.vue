@@ -82,9 +82,13 @@
         </div>
 
        <div class="cart__block">
-         <div v-if="this.cardDetalProducts < 1 "> Товаров в корзине нет</div>
-        <InfoProductCart  v-else v-for="infoProduct in this.cardDetalProducts" :key="infoProduct.productId" :info-product="infoProduct"/>
-          <button  class="cart__button button button--primery" type="submit">
+         <div v-if="this.numberProduct < 1 "> Товаров в корзине нет</div>
+        <InfoProductCart  v-else v-for="infoProduct in this.cardDetalProducts" :key="infoProduct.productId"
+        :info-product="infoProduct"
+        :total-price="totalPrice"
+        :number-products="numberProduct"
+        />
+          <button  class="cart__button button button--primery" type="submit" v-if="numberProduct > 0">
             Оформить заказ
           </button>
         </div>
@@ -119,7 +123,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['cardDetalProducts'])
+    ...mapGetters(['cardDetalProducts', 'numberProduct', 'totalPrice'])
   },
   methods: {
     ...mapMutations(['clearCartProduct', 'updateOrderInfo']),

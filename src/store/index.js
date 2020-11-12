@@ -10,7 +10,7 @@ export default new Vuex.Store({
     cartProducts: [],
     userAccessKey: null,
     cartProductItems: [],
-    orderInfoData: null
+    orderInfoData: []
   },
   mutations: {
     updateOrderInfo (state, orderInfo) {
@@ -62,9 +62,6 @@ export default new Vuex.Store({
     },
     numberProduct (state, getters) {
       return getters.cardDetalProducts.length
-    },
-    productOrderInfoData (state) {
-      return state.orderInfoData.basket.items
     }
   },
   actions: {

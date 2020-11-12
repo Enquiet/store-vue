@@ -9,26 +9,30 @@
   </ul>
   <div class="cart__total">
     <p>Доставка: <b>500 ₽</b></p>
-    <p>Итого: <b>{{numberProduct}}</b> товара на сумму <b>{{totalPrice | numberFormat}}</b></p>
+    <p>Итого: <b>{{numberProducts}}</b> товара на сумму <b>{{totalPrice | numberFormat}}</b></p>
   </div>
 </div>
 </template>
 
 <script>
 import numberFormat from '@/helpers/numberFormat'
-import { mapGetters } from 'vuex'
 export default {
   props: {
     infoProduct: {
       type: Object,
       default: () => []
+    },
+    totalPrice: {
+      type: Number,
+      default: 0
+    },
+    numberProducts: {
+      type: Number,
+      default: 0
     }
   },
   filters: {
     numberFormat
-  },
-  computed: {
-    ...mapGetters(['numberProduct', 'totalPrice'])
   }
 }
 </script>

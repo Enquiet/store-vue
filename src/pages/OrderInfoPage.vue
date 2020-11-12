@@ -1,5 +1,6 @@
 <template>
-     <main class="content container">
+<div v-if="infoOrderError">{{infoOrderError}}</div>
+     <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -20,7 +21,7 @@
       </ul>
 
       <h1 class="content__title">
-        Заказ оформлен <span>№ 23621</span>
+        Заказ оформлен <span>№ {{this.$store.state.orderInfoData.id}}</span>
       </h1>
     </div>
 
@@ -38,7 +39,7 @@
                 Получатель
               </span>
               <span class="dictionary__value">
-                Иванова Василиса Алексеевна
+               {{this.$store.state.orderInfoData.name}}
               </span>
             </li>
             <li class="dictionary__item">
@@ -46,7 +47,7 @@
                 Адрес доставки
               </span>
               <span class="dictionary__value">
-                Москва, ул. Ленина, 21, кв. 33
+                {{this.$store.state.orderInfoData.address}}
               </span>
             </li>
             <li class="dictionary__item">
@@ -54,7 +55,7 @@
                 Телефон
               </span>
               <span class="dictionary__value">
-                8 800 989 74 84
+              {{this.$store.state.orderInfoData.phone}}
               </span>
             </li>
             <li class="dictionary__item">
@@ -62,7 +63,7 @@
                 Email
               </span>
               <span class="dictionary__value">
-                lalala@mail.ru
+               {{this.$store.state.orderInfoData.email}}
               </span>
             </li>
             <li class="dictionary__item">
@@ -77,7 +78,11 @@
         </div>
 
         <div class="cart__block">
-           <InfoProductCart v-for="infoProduct in productOrderInfoData" :key="infoProduct.id" :info-product="infoProduct"/>
+           <InfoProductCart v-for="infoProduct in orderInfo.basket.items" :key="infoProduct.id"
+            :info-product="infoProduct"
+            :total-price="orderInfo.totalPrice"
+            :number-products="orderInfo.basket.items.length"
+           />
         </div>
       </form>
     </section>
@@ -86,18 +91,26 @@
 
 <script>
 import InfoProductCart from '@/components/InfoProductCart.vue'
-import { mapActions, mapGetters } from 'vuex'
 
 export default {
+  data () {
+    return {
+      infoOrderError: false
+    }
+  },
   components: {
     InfoProductCart
   },
   computed: {
-    ...mapActions(['loadOrderInfo']),
-    ...mapGetters(['productOrderInfoData'])
+    orderInfo () {
+      return this.$store.state.orderInfoData
+    }
   },
   created () {
-    this.loadOrderInfo(this.$route.params.id)
+    this.$store.dispatch('loadOrderInfo', this.$route.params.id)
+      .catch((error) => {
+        this.infoOrderError = error.response.data.error.message
+      })
   }
 }
 </script>

@@ -31,6 +31,10 @@
         </div>
 
         <div class="cart__block">
+          <p class="cart__desc" v-if="numberProduct === 0">
+            Ваша корзина пуста.<br> Пожалуйста добавте товар в корзину
+          </p>
+          <div class="cart__wrapper" v-else>
           <p class="cart__desc">
             Мы&nbsp;посчитаем стоимость доставки на&nbsp;следующем этапе
           </p>
@@ -38,9 +42,11 @@
             Итого: <span>{{this.totalPrice}}</span>
           </p>
 
-          <router-link tag="button" :to="{name: 'orderPage'}" class="cart__button button button--primery" type="submit">
+          <router-link tag="button" :to="{name: 'orderPage'}" class="cart__button button button--primery" type="submit" >
             Оформить заказ
           </router-link>
+          </div>
+
         </div>
       </form>
     </section>
