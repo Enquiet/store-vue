@@ -65,7 +65,8 @@
               <button class="button button--primery" type="submit">
                 В корзину
               </button>
-              <div v-show="addProduct.ok" > Товар добавился в корзину</div>
+              <LoadAddProduct v-show="loadingAddProduct" />
+              <div v-show="addProduct.ok" > Товар добавился в корзину </div>
               <div v-show="addProduct.error" > произошла ошибка </div>
             </div>
           </form>
@@ -131,6 +132,7 @@ import ProductColors from '@/components/product/ProductColors.vue'
 import Counter from '@/components/common/Counter.vue'
 import PageOk from '@/components/loadingPage/PageOk.vue'
 import NotFoundPage from './NotFoundPage.vue'
+import LoadAddProduct from '@/components/loadingPage/LoadAddProduct.vue'
 import { API_URL } from '@/helpers/config'
 import axios from 'axios'
 import { mapActions } from 'vuex'
@@ -139,6 +141,7 @@ export default {
     return {
       productAmaunt: 1,
       productData: null,
+      loadingAddProduct: false,
       loadingProduct: {
         ok: false,
         error: false
@@ -150,7 +153,7 @@ export default {
     }
   },
   components: {
-    ProductColors, Counter, PageOk, NotFoundPage
+    ProductColors, Counter, PageOk, NotFoundPage, LoadAddProduct
   },
   filters: {
     numberFormat
@@ -169,17 +172,21 @@ export default {
   methods: {
     ...mapActions(['addProductCart']),
     addToCard () {
+      this.loadingAddProduct = true
       this.addProduct.ok = false
       this.addProduct.error = false
-      this.addProductCart({ productId: this.productInfo.id, amount: this.productAmaunt })
-        .then(() => {
-          this.addProduct.ok = true
-        })
-        .catch(() => {
-          this.addProduct.error = true
-        })
+      this.loadTimerProduct = setTimeout(() => {
+        this.addProductCart({ productId: this.productInfo.id, amount: this.productAmaunt })
+          .then(() => {
+            this.loadingAddProduct = false
+            this.addProduct.ok = true
+          })
+          .catch(() => {
+            this.addProduct.error = true
+          })
+      }, 2000)
     },
-    getLoadingPRoduct () {
+    getLoadingProduct () {
       this.loadingProduct.ok = true
       this.loadingProduct.error = false
       axios.get(API_URL + '/api/products/' + this.$route.params.id)
@@ -197,7 +204,7 @@ export default {
   watch: {
     '$route.params.id': {
       handler () {
-        this.getLoadingPRoduct()
+        this.getLoadingProduct()
       },
       immediate: true
     }

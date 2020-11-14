@@ -1,6 +1,5 @@
 <template>
-<div v-if="infoOrderError">{{infoOrderError}}</div>
-     <main class="content container" v-else>
+  <main class="content container" v-if="orderInfo.basket">
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -108,9 +107,14 @@ export default {
   },
   created () {
     this.$store.dispatch('loadOrderInfo', this.$route.params.id)
-      .catch((error) => {
-        this.infoOrderError = error.response.data.error.message
-      })
+  },
+  watch: {
+    '$route.params.id' () {
+      this.$store.dispatch('loadOrderInfo', this.$route.params.id)
+        .catch(() => {
+          this.$router.push({ name: 'notFound' })
+        })
+    }
   }
 }
 </script>
