@@ -10,16 +10,33 @@
       <a class="header__tel" href="tel:8 800 600 90 09">
         8 800 600 90 09
       </a>
-
-     <CartIndecator/>
+      <LoadCartIndecator v-show="loadProductCart"/>
+     <CartIndecator v-show="addProductCart"/>
     </div>
     </header>
 </template>
 
 <script>
 import CartIndecator from '@/components/cart/CartIndecator.vue'
+import LoadCartIndecator from '@/components/loadingPage/LoadCartIndecator.vue'
 
 export default {
-  components: { CartIndecator }
+  components: { CartIndecator, LoadCartIndecator },
+  data () {
+    return {
+      loadProductCart: false,
+      addProductCart: true
+    }
+  },
+  watch: {
+    '$store.getters.numberProduct' () {
+      this.loadProductCart = true
+      this.addProductCart = false
+      this.loadTimerCart = setTimeout(() => {
+        this.loadProductCart = false
+        this.addProductCart = true
+      }, 1000)
+    }
+  }
 }
 </script>

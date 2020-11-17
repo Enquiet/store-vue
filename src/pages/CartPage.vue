@@ -1,5 +1,6 @@
 <template>
     <main class="content container">
+      <LoadCart v-if="this.loadCartProduct"/>
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -57,13 +58,38 @@
 import numberFormat from '@/helpers/numberFormat'
 import { mapGetters } from 'vuex'
 import CartItem from '@/components/cart/CartItem'
+import LoadCart from '@/components/loadingPage/LoadCart.vue'
 export default {
-  components: { CartItem },
+  data () {
+    return {
+      loadCartProduct: false
+    }
+  },
+  components: { CartItem, LoadCart },
   filters: {
     numberFormat
   },
   computed: {
     ...mapGetters(['cardDetalProducts', 'totalPrice', 'numberProduct'])
+  },
+  methods: {
+    setLoadProducts () {
+      this.loadCartProduct = true
+      this.loadTimerCart = setTimeout(() => {
+        this.loadCartProduct = false
+      }, 1000)
+    }
+  },
+  watch: {
+    numberProduct () {
+      this.setLoadProducts()
+    },
+    totalPrice () {
+      this.setLoadProducts()
+    },
+    '$route.path' () {
+      this.setLoadProducts()
+    }
   }
 }
 </script>

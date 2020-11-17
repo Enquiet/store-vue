@@ -14,7 +14,7 @@
       <section class="catalog">
         <PageOk v-if="this.loadingProducts.ok"/>
         <PageError v-else-if="this.loadingProducts.error"/>
-        <ProductList else :productList="goods" />
+        <ProductList v-else :productList="goods" />
         <BasePagination  :current-page.sync="page" :all-products="getAllProduct" :per-products="NumberProductsPerPage"/>
       </section>
     </div>
